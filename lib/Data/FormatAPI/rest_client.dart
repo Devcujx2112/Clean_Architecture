@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class RestClient {  
+class RestClient {
   factory RestClient() {
     _singleton ??= RestClient._internal(dotenv.env['API_BASE_URL'] ?? '');
     return _singleton!;
@@ -39,5 +39,67 @@ class RestClient {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<dynamic> post({
+    required String path,
+    Map<String, dynamic>? data,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final Response response = await dio.post(
+        path,
+        data: data,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> put({
+    required String path,
+    Map<String, dynamic>? data,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final Response response = await dio.put(
+        path,
+        data: data,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> delete({
+    required String path,
+    Map<String, dynamic>? data,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final Response response = await dio.delete(
+        path,
+        data: data,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  void dispose() {
+    dio.close();
+    _singleton = null;
   }
 }
